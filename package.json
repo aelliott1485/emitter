@@ -1,0 +1,28 @@
+{
+  "name": "emitter",
+  "version": "1.0.0",
+  "description": "Event Emitter",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aelliott1485/emitter.git"
+  },
+  "author": "Andrew Elliott",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aelliott1485/emitter/issues"
+  },
+  "homepage": "https://github.com/aelliott1485/emitter#readme",
+  "dependencies": {
+    "chai": "^4.1.2",
+    "express": "^4.16.3",
+    "mocha": "^5.2.0",
+    "request": "^2.87.0"
+  }
+}
