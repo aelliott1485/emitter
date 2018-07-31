@@ -1,31 +1,70 @@
-var expect = require("chai").expect;
-var EventEmitter = require("../src/");
+const EventEmitter = require("../src/");
+const chai = require("chai");
+const sinon = require('sinon');
+const sinonChai = require("sinon-chai");
+chai.should();
+chai.use(sinonChai);
 
-describe("Event Emitter", function() { 
-  describe("Event Emission", function() {
-    it("Allows Events to be emitted with various numbers of arguments", function() {
-      var emitter = new EventEmitter();
-      var scraped = false;
-      var callbackArgs;
-      emitter.on('scrape', function() {
-        scraped = true;
-        callbackArgs = arguments;
-      });
-      emitter.emit('scrape');
-      expect(scraped).to.equal(true);
-      expect(Object.values(callbackArgs).length).to.equal(0);
-      
-      var testValue1 = 'testValue1';
-      emitter.emit('scrape', testValue1);
-      expect(Object.values(callbackArgs).length).to.equal(1);
-      expect(Object.values(callbackArgs)[0]).to.equal(testValue1);
-      
-      var multiArgs = ['a', 'scraped', 'value'];
-      emitter.emit('scrape', ...multiArgs);
-      expect(Object.values(callbackArgs).length).to.equal(3);
-      multiArgs.forEach(function(argument, index) {        
-        expect(Object.values(callbackArgs)[index]).to.equal(argument);
-      });
-    });    
+describe("Event Emitter", function() {
+  let emitter;
+  before(function() {
+    emitter = new EventEmitter();
+  })
+  it("Allows emitting named events with any number of arguments.", function() {
+    sinon.spy(emitter, "emit");
+    emitter.emit('shift', 1);
+    emitter.emit('shift', 1337, 42);
+    emitter.emit.getCall(0).should.have.been.calledWith('shift', 1);
+    emitter.emit.getCall(1).should.have.been.calledWith('shift', 1337, 42);    
+  });
+  it("Allows registering handler functions for named events that are passed the appropriate arguments on emission.", function() {
+    const callback = sinon.fake();
+    emitter.on('scrape', callback);
+    emitter.emit('scrape');
+    callback.should.have.been.called;
+
+    const testValue1 = 'testValue1';
+    emitter.emit('scrape', testValue1);
+    callback.should.have.been.calledWith(testValue1);
+
+    const multiArgs = ['a', 'scraped', 'value'];
+    emitter.emit('scrape', ...multiArgs);
+    callback.should.have.been.calledWith(...multiArgs);
+  });    
+  it("Allows Registering a \"one-time\" handler that will be called at most one time.", function() {
+    const callback = sinon.fake();
+    const callback2 = sinon.fake();
+    emitter.once('pull', callback);
+    emitter.on('pull', callback2);
+
+    emitter.emit('pull');
+    emitter.emit('pull');
+
+    callback.should.have.been.calledOnce;
+    callback2.should.have.been.calledTwice;
+  });
+  it("Allows Removing specific previously-registered event handlers and/or all previously-registered event handlers.", function() {
+    const callback = sinon.fake();
+    const callback2 = sinon.fake();
+    const callback3 = sinon.fake();
+    const callback4 = sinon.fake();
+
+    emitter.on('push', callback);
+    emitter.on('push', callback2);
+    emitter.off('push', callback);
+    emitter.emit('push');
+
+    callback.should.not.have.been.called;
+    callback2.should.have.been.called;
+    
+    emitter.on('push', callback3);
+    emitter.off('push');
+    emitter.emit('push');
+        
+    emitter.on('unshift', callback4);
+    emitter.emit('unshift');
+    
+    callback3.should.not.have.been.called;
+    callback4.should.have.been.called;    
   });
 });
