@@ -6,9 +6,10 @@ This Event Emitter module allows one or more functions to be attached to named e
 #### Example:
 ```
 var emitter = new EventEmitter();
+//register the handler function (defined below)
 emitter.on('sent', receive);
-var data = {"foo": "bar"};
-emitter.emit('sent', data);
+//later, emit the event and pass data, which will be sent to the handler function(s)
+emitter.emit('sent', {"foo": "bar"});
 
 function receive(data) {
   //handle data

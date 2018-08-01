@@ -48,10 +48,8 @@ Emitter.prototype.once = function(event, callback) {
 */
 Emitter.prototype.off = function(event, callback) {
   if (this.eventHandlers.hasOwnProperty(event)) {
-    //console.log('callback: ',callback, event);
     if (callback !== undefined) {
       for (const index in this.eventHandlers[event]) {
-      //  console.log('handler.callback:',''+this.eventHandlers[event][index].callback);
         if (callback.toString() == this.eventHandlers[event][index].callback.toString()) {
           this.eventHandlers[event].splice(index, 1);
         }
