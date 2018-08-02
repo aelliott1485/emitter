@@ -7,11 +7,10 @@ function Emitter() {
 /**
  *  Emit an event
  * @param event string
- * @param arg1
+ * @param arg1...argN - any arguments to be sent to callback functions
  */
-Emitter.prototype.emit = function() {
-  const args = Array.from(arguments);
-  const event = args.splice(0, 1); //remove event name
+Emitter.prototype.emit = function(event) {
+  const args = Array.from(arguments).slice(1);
   if (this.eventHandlers.hasOwnProperty(event)) {
     for (const handler of this.eventHandlers[event]) {
       if (handler.hasOwnProperty('once')) {
