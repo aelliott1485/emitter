@@ -2,6 +2,34 @@
 
 This Event Emitter module allows one or more functions to be attached to named events and those named events to be emitted.
 
+---
+
+## Installation
+
+First, clone the repository:
+
+```
+$ git clone https://github.com/aelliott1485/emitter.git
+```
+
+Then go into the local directory for the repository:
+
+```
+$ cd emitter
+```
+
+Next install the dependencies (e.g. test frameworks)
+
+```
+$ npm install
+```
+
+Then the tests can be run to ensure it works as expected:
+
+```
+$ npm test
+```
+
 
 #### Example:
 ```
@@ -46,11 +74,3 @@ Registers a handler function to only be called the first time the named event is
 - `callback` [`<Function>`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function)
 
 Removes a specific previously-registered event handler and/or all previously-registered event handlers.
-
----
-
-## Running Tests
-
-```
-$ npm test
-```
