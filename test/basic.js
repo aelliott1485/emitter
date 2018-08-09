@@ -9,13 +9,6 @@ describe("Event Emitter", function() {
   let emitter;
   before(function() {
     emitter = new EventEmitter();
-  })
-  it("Allows emitting named events with any number of arguments.", function() {
-    sinon.spy(emitter, "emit");
-    emitter.emit('shift', 1);
-    emitter.emit('shift', 1337, 42);
-    emitter.emit.getCall(0).should.have.been.calledWith('shift', 1);
-    emitter.emit.getCall(1).should.have.been.calledWith('shift', 1337, 42);    
   });
   it("Allows registering handler functions for named events that are passed the appropriate arguments on emission.", function() {
     const callback = sinon.fake();

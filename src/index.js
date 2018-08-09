@@ -12,14 +12,18 @@ function Emitter() {
 Emitter.prototype.emit = function(event) {
   const args = Array.from(arguments).slice(1);
   if (this.eventHandlers.hasOwnProperty(event)) {
-    for (const handler of this.eventHandlers[event]) {
+    let indexesToRemove = [];
+    for (const index in this.eventHandlers[event]) {
+      const handler = this.eventHandlers[event][index];
+      handler.callback.apply(null, args);
       if (handler.hasOwnProperty('once')) {
-        if (handler.hasOwnProperty('called')) {
-          continue;
-        }
-        handler.called = true;
+        indexesToRemove.push(index);
       }
-      handler.callback.apply(null, Object.values(args));
+    }
+    if (indexesToRemove.length) {
+      for(const index in indexesToRemove) {
+        this.eventHandlers[event].splice(index, 1);
+      }
     }
   }
 };
