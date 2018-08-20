@@ -2,6 +2,7 @@
 
 This Event Emitter module allows one or more functions to be attached to named events and those named events to be emitted.
 
+[Code Review](https://codereview.stackexchange.com/q/201326/120114)
 ---
 
 ## Installation
