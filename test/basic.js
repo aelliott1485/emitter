@@ -60,4 +60,27 @@ describe("Event Emitter", function() {
     callback3.should.not.have.been.called;
     callback4.should.have.been.called;    
   });
+  it('Works with toString', function() {
+  const callback = sinon.fake();
+  emitter.on('toString', callback);
+  emitter.emit('toString');
+  callback.should.have.been.called;
+})
+
+it('Works with object references', function() {
+  const callback = sinon.fake();
+  emitter.on({}, callback);
+  emitter.emit({});
+  callback.should.not.have.been.called;
+});
+
+it('Does not apply `off` calls in the middle of emitting', function() {
+  const callback = sinon.fake();
+  emitter.once('event', () => {
+    emitter.off('event', callback);
+  })
+  emitter.on('event', callback);
+  emitter.emit('event');
+  callback.should.have.been.called;
+});
 });
