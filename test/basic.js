@@ -2,6 +2,7 @@ const EventEmitter = require("../src/");
 const chai = require("chai");
 const sinon = require('sinon');
 const sinonChai = require("sinon-chai");
+const expect = chai.expect;
 chai.should();
 chai.use(sinonChai);
 
@@ -83,4 +84,7 @@ it('Does not apply `off` calls in the middle of emitting', function() {
   emitter.emit('event');
   callback.should.have.been.called;
 });
+  it('throws an error if something besides a function is passed as a callback function', function() {
+    expect(emitter.on.bind(null, 'a', 'b')).to.throw(Error);
+  })
 });
