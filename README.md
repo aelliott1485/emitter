@@ -4,6 +4,8 @@ This Event Emitter module allows one or more functions to be attached to named e
 
 Check out the [Code Review](https://codereview.stackexchange.com/q/201326/120114) for feedback by community members.
 
+This was originally created in 2018.
+
 ---
 
 ## Installation
